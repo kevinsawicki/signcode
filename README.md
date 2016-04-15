@@ -46,6 +46,12 @@ openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -nodes
 openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem
 ```
 
+### Create a p12 with no password
+
+```
+openssl pkcs12 -export -out ./test/fixtures/cert.p12 -inkey ./test/fixtures/key.pem -in ./test/fixtures/cert.pem
+```
+
 ### Show fingerprint of a cert
 
 ```sh

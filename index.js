@@ -50,10 +50,6 @@ exports.verify = function (options, callback) {
 function spawnSign (options, callback) {
   var outputPath = getOutputPath(options.path, options.hash)
   var args = [
-    '-certs',
-    options.cert,
-    '-key',
-    options.key,
     '-in',
     options.path,
     '-out',
@@ -61,6 +57,17 @@ function spawnSign (options, callback) {
     '-t',
     'http://timestamp.verisign.com/scripts/timstamp.dll'
   ]
+
+  var certExtension = path.extname(options.cert)
+  if (certExtension === '.p12' || certExtension === '.pfx') {
+    args.push('-pkcs12', options.cert)
+  } else {
+    args.push('-certs', options.cert)
+  }
+
+  if (options.key) {
+    args.push('-key', options.key)
+  }
 
   if (options.hash) {
     args.push('-h', options.hash)
