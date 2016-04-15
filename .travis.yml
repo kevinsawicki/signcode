@@ -1,0 +1,20 @@
+os:
+  - osx
+
+branches:
+  only:
+    - master
+
+env:
+  - NODE_VERSION="4.4.3"
+
+script: ./script/travis-build.sh
+
+cache:
+  directories:
+    - node_modules
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change
