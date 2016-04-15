@@ -3,7 +3,7 @@ var fs = require('fs')
 var path = require('path')
 
 exports.sign = function (options, callback) {
-  var signOptions = Object.assign(options)
+  var signOptions = Object.assign({}, options)
 
   var hashes = signOptions.hash
   if (!hashes) {
@@ -72,12 +72,22 @@ function spawnSign (options, callback) {
     args.push('-pass', options.password)
   }
 
-  var signcode = ChildProcess.spawn(getSigncodePath(), args)
+  var spawnOptions = {
+    env: process.env
+  }
+
+  if (options.password) {
+    spawnOptions.detached = true
+    spawnOptions.stdio = 'ignore'
+  }
+
+  var signcode = ChildProcess.spawn(getSigncodePath(), args, spawnOptions)
+
   signcode.on('close', function (code, signal) {
     if (code === 0) {
       callback(null, outputPath)
     } else {
-      var message = 'osslsigncode signing failed: '
+      var message = 'osslsigncode signing failed:'
       if (code != null) {
         message += ' ' + code
       }
