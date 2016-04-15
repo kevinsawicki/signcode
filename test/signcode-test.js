@@ -34,4 +34,22 @@ describe('signcode', function () {
       })
     })
   })
+
+  describe('.verify(options)', function () {
+    it('verifies the sha1 signature on the executable', function (done) {
+      var verifyOptions = {
+        hash: 'sha1:9BF51511E06FA5FFE1CE408584B9981AA4EFE7EA',
+        path: path.join(__dirname, 'fixtures', 'electron-signed.exe')
+      }
+      signcode.verify(verifyOptions, done)
+    })
+
+    it('verifies the sha256 signature on the executable', function (done) {
+      var verifyOptions = {
+        hash: 'sha256:7229D992750771B833BE2C4F497A5853573B55FB9181E4031691A55FBEE496F6',
+        path: path.join(__dirname, 'fixtures', 'electron-signed.exe')
+      }
+      signcode.verify(verifyOptions, done)
+    })
+  })
 })
