@@ -22,7 +22,7 @@ var options = {
   cert: '/Users/kevin/certs/cert.pem',
   hash: ['sha1', 'sha256'],
   key: '/Users/kevin/certs/key.pem',
-  overwrite: true
+  overwrite: true,
   path: '/Users/kevin/apps/myapp.exe'
 }
 
