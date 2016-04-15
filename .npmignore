@@ -1,4 +1,5 @@
 test
 .node-version
 .npmignore
+.travis.yml
 script
