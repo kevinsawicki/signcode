@@ -6,6 +6,9 @@ exports.sign = function (options, callback) {
   var signOptions = Object.assign(options)
 
   var hashes = signOptions.hash
+  if (!hashes) {
+    hashes = ['sha1', 'sha256']
+  }
   if (!Array.isArray(hashes)) {
     hashes = [hashes]
   }
