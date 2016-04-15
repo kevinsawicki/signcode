@@ -36,7 +36,7 @@ function spawn (options, callback) {
     if (code === 0) {
       callback()
     } else {
-      var message = 'Signcode failed: '
+      var message = 'osslsigncode failed: '
       if (code != null) {
         message += ' ' + code
       }
