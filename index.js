@@ -7,7 +7,10 @@ exports.sign = function (options, callback) {
 
 function spawn (options, callback) {
   var args = [
-    '-nest',
+    '-certs',
+    options.cert,
+    '-key',
+    options.key,
     '-in',
     options.path,
     '-out',
@@ -29,11 +32,18 @@ function spawn (options, callback) {
   }
 
   var signcode = ChildProcess.spawn(getSigncodePath(), args)
-  signcode.on('exit', function (code) {
+  signcode.on('exit', function (code, signal) {
     if (code === 0) {
       callback()
     } else {
-      callback(Error('Signcode failed: ' + code))
+      var message = 'Signcode failed: '
+      if (code != null) {
+        message += ' ' + code
+      }
+      if (signal != null) {
+        message += ' ' + signale
+      }
+      callback(Error(message))
     }
   })
 }
@@ -46,5 +56,5 @@ function getOutputPath (inputPath) {
 }
 
 function getSigncodePath () {
-  return path.join(__dirname, vendor, process.platform, 'osslsigncode')
+  return path.join(__dirname, 'vendor', process.platform, 'osslsigncode')
 }
