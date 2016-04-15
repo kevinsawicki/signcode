@@ -22,16 +22,30 @@ describe('signcode', function () {
       signcode.sign(options, function (error, outputPath) {
         if (error) return done(error)
 
-        var verifyOptions = {
-          hash: 'sha1:9BF51511E06FA5FFE1CE408584B9981AA4EFE7EA',
-          path: outputPath
-        }
-        signcode.verify(verifyOptions, function (error) {
-          if (error) return done(error)
+        var sha1 = '9BF51511E06FA5FFE1CE408584B9981AA4EFE7EA'
+        var sha256 = '7229D992750771B833BE2C4F497A5853573B55FB9181E4031691A55FBEE496F6'
+        verifyExe(outputPath, sha1, sha256done)
+      })
+    })
 
-          verifyOptions.hash = 'sha256:7229D992750771B833BE2C4F497A5853573B55FB9181E4031691A55FBEE496F6'
-          signcode.verify(verifyOptions, done)
-        })
+    it('signs the executable with a password', function (done) {
+      var tempPath = temp.path({suffix: '.exe'})
+      fs.writeFileSync(tempPath, fs.readFileSync(path.join(__dirname, 'fixtures', 'electron.exe')))
+
+      var options = {
+        cert: path.join(__dirname, 'fixtures', 'cert-with-pw.pem'),
+        hash: ['sha1', 'sha256'],
+        key: path.join(__dirname, 'fixtures', 'key-with-pw.pem'),
+        password: 'signcode',
+        path: tempPath
+      }
+
+      signcode.sign(options, function (error, outputPath) {
+        if (error) return done(error)
+
+        var sha1 = '15D3780E7FD7D18439EFBC6C0413489536B373B9'
+        var sha256 = '58B7E3102CBCCB0CF6A462F67F18834B6570C231D721D8AF5E4C4ABF0688BD3F'
+        verifyExe(outputPath, sha1, sha256, done)
       })
     })
   })
@@ -75,3 +89,15 @@ describe('signcode', function () {
     })
   })
 })
+
+function verifyExe (outputPath, sha1, sha256, callback) {
+  var verifyOptions = {
+    hash: 'sha1:' + sha1,
+    path: outputPath
+  }
+  signcode.verify(verifyOptions, function (error) {
+    if (error) return callback(error)
+    verifyOptions.hash = 'sha256:' + sha256
+    signcode.verify(verifyOptions, callback)
+  })
+}

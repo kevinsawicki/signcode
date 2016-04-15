@@ -68,6 +68,10 @@ function spawnSign (options, callback) {
     args.push('-nest')
   }
 
+  if (options.password) {
+    args.push('-pass', options.password)
+  }
+
   var signcode = ChildProcess.spawn(getSigncodePath(), args)
   signcode.on('close', function (code, signal) {
     if (code === 0) {
