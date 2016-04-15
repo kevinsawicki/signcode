@@ -1,5 +1,10 @@
 # signcode
 
+[![Travis Build Status](https://travis-ci.org/kevinsawicki/signcode.svg?branch=master)](https://travis-ci.org/kevinsawicki/signcode)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
+[![npm:](https://img.shields.io/npm/v/signcode.svg)](https://www.npmjs.com/packages/signcode)
+
+
 Sign Windows executables from a Mac.
 
 ## Installing
