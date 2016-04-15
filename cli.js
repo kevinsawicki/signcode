@@ -19,9 +19,11 @@ var options = {
   cert: path.resolve(args.argv.cert),
   hash: ['sha1', 'sha256'],
   key: args.argv.key ? path.resolve(args.argv.key) : args.argv.key,
+  name: args.argv.name,
   overwrite: true,
   password: args.argv.password,
-  path: fileToSign
+  path: fileToSign,
+  site: args.argv.url
 }
 
 if (args.argv.prompt) {
@@ -71,6 +73,16 @@ function parseArgs () {
       describe: 'Path to a .pem, .pfx, or .p12 certificate file',
       type: 'string'
     })
+    .option('key', {
+      alias: 'k',
+      describe: 'Path to .pem key file',
+      type: 'string'
+    })
+    .option('name', {
+      alias: 'n',
+      describe: 'Application name',
+      type: 'string'
+    })
     .option('password', {
       describe: 'Password to use for certificate/key pair',
       type: 'string'
@@ -79,9 +91,9 @@ function parseArgs () {
       describe: 'Prompt for a password',
       type: 'boolean'
     })
-    .option('key', {
-      alias: 'k',
-      describe: 'Path to .pem key file',
+    .option('url', {
+      alias: 'u',
+      describe: 'Application URL',
       type: 'string'
     })
     .help('help')

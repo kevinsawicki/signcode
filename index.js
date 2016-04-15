@@ -99,6 +99,7 @@ function spawnSign (options, callback) {
     spawnOptions.stdio = ['ignore', 'ignore', 'pipe']
   }
 
+  console.log(args.join(' '));
   var signcode = ChildProcess.spawn(getSigncodePath(), args, spawnOptions)
 
   var stderr = ''
