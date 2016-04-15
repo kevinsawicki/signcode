@@ -63,9 +63,6 @@ function spawnSign (options, callback) {
     args.push('-pkcs12', options.cert)
   } else {
     args.push('-certs', options.cert)
-  }
-
-  if (options.key) {
     args.push('-key', options.key)
   }
 
@@ -113,7 +110,7 @@ function spawnSign (options, callback) {
     if (code === 0) {
       callback(null, outputPath)
     } else {
-      var message = 'Signing failed with '
+      var message = 'Signing failed with'
 
       if (code != null) {
         message += ' ' + code

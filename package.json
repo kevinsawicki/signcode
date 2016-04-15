@@ -7,11 +7,18 @@
   "scripts": {
     "test": "mocha && standard"
   },
+  "bin": {
+    "signcode": "./cli.js"
+  },
   "author": "Kevin Sawicki",
   "license": "MIT",
   "devDependencies": {
     "mocha": "^2.4.5",
     "standard": "^6.0.8",
     "temp": "^0.8.3"
+  },
+  "dependencies": {
+    "prompt": "^1.0.0",
+    "yargs": "^4.6.0"
   }
 }
