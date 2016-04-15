@@ -32,7 +32,7 @@ signcode.sign(options, function (error) {
   } else {
     console.log(options.path + ' is now signed')
   }
-}
+})
 ```
 
 ## Cert helpers commands
