@@ -6,6 +6,10 @@
 
 Sign Windows executables from a Mac.
 
+Works with `.pem`, `.p12`, and `.pfx` code signing files.
+
+Signs with `sha1` and `sha256` signatures by default.
+
 ## Installing
 
 ```sh
