@@ -2,6 +2,34 @@
 
 Sign Windows executables from a Mac.
 
+## Installing
+
+```sh
+npm install signcode
+```
+
+## Using
+
+```js
+var signcode = require('signcode')
+
+var options = {
+  cert: '/Users/kevin/certs/cert.pem',
+  hash: ['sha1', 'sha256'],
+  key: '/Users/kevin/certs/key.pem',
+  overwrite: true
+  path: '/Users/kevin/apps/myapp.exe'
+}
+
+signcode.sign(options, function (error) {
+  if (error) {
+    console.error('Signing failed', error.message)
+  } else {
+    console.log(options.path + ' is now signed')
+  }
+}
+```
+
 ## Cert helpers commands
 
 These commands are helpful to when working with certificates.
