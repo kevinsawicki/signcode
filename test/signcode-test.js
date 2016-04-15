@@ -25,7 +25,12 @@ describe('signcode', function () {
           hash: 'sha1:9BF51511E06FA5FFE1CE408584B9981AA4EFE7EA',
           path: outputPath
         }
-        signcode.verify(verifyOptions, done)
+        signcode.verify(verifyOptions, function (error) {
+          if (error) return done(error)
+
+          verifyOptions.hash = 'sha256:7229D992750771B833BE2C4F497A5853573B55FB9181E4031691A55FBEE496F6'
+          signcode.verify(verifyOptions, done)
+        })
       })
     })
   })
