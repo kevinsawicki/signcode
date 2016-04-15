@@ -11,6 +11,7 @@
   "license": "MIT",
   "devDependencies": {
     "mocha": "^2.4.5",
+    "standard": "^6.0.8",
     "temp": "^0.8.3"
   }
 }
