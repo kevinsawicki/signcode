@@ -116,6 +116,40 @@ describe('signcode', function () {
         done()
       })
     })
+
+    it('calls back with an error when an invalid certificate is specified', function (done) {
+      var tempPath = temp.path({suffix: '.exe'})
+      fs.writeFileSync(tempPath, fs.readFileSync(path.join(__dirname, 'fixtures', 'electron.exe')))
+
+      var options = {
+        cert: path.join(__dirname, 'fixtures', 'cert-with-pw2.pem'),
+        key: path.join(__dirname, 'fixtures', 'key-with-pw.pem'),
+        path: tempPath
+      }
+
+      signcode.sign(options, function (error) {
+        assert(error.message.length > 0)
+        assert.notEqual(-1, error.message.indexOf('Failed to read certificate file'))
+        done()
+      })
+    })
+
+    it('calls back with an error when an invalid key is specified', function (done) {
+      var tempPath = temp.path({suffix: '.exe'})
+      fs.writeFileSync(tempPath, fs.readFileSync(path.join(__dirname, 'fixtures', 'electron.exe')))
+
+      var options = {
+        cert: path.join(__dirname, 'fixtures', 'cert-with-pw.pem'),
+        key: path.join(__dirname, 'fixtures', 'key-with-pw2.pem'),
+        path: tempPath
+      }
+
+      signcode.sign(options, function (error) {
+        assert(error.message.length > 0)
+        assert.notEqual(-1, error.message.indexOf('Failed to read private key file'))
+        done()
+      })
+    })
   })
 
   describe('.verify(options)', function () {

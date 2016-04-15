@@ -95,21 +95,35 @@ function spawnSign (options, callback) {
 
   if (options.password) {
     spawnOptions.detached = true
-    spawnOptions.stdio = 'ignore'
+    spawnOptions.stdio = ['ignore', 'ignore', 'pipe']
   }
 
   var signcode = ChildProcess.spawn(getSigncodePath(), args, spawnOptions)
+
+  var stderr = ''
+  signcode.stderr.on('data', function (data) {
+    stderr += data.toString()
+  })
 
   signcode.on('close', function (code, signal) {
     if (code === 0) {
       callback(null, outputPath)
     } else {
-      var message = 'osslsigncode signing failed:'
+      var message = 'Signing failed with '
+
       if (code != null) {
         message += ' ' + code
       }
+
       if (signal != null) {
         message += ' ' + signal
+      }
+
+      if (stderr) {
+        var errorOutput = formatErrorOutput(stderr)
+        if (errorOutput) {
+          message += '. ' + errorOutput
+        }
       }
       callback(Error(message))
     }
@@ -150,6 +164,12 @@ function spawnVerify (options, callback) {
       callback(Error(message))
     }
   })
+}
+
+function formatErrorOutput (output) {
+  return output.split('\n').filter(function (line) {
+    return !/^\d+:|osslsigncode\(|\*\*\*\s/.test(line)
+  }).join('\n')
 }
 
 function getOutputPath (inputPath, hash) {
