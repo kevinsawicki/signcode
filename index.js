@@ -13,10 +13,12 @@ exports.sign = function (options, callback) {
     hashes = [hashes]
   }
 
-  var finalPath = getOutputPath(options.path)
+  var finalPath = getOutputPath(signOptions.path)
   var signWithNextHash = function (hash) {
     var hash = hashes.shift()
-    if (!hash) return callback(null, finalPath)
+    if (!hash) {
+      return callback(null, finalPath)
+    }
 
     signOptions.hash = hash
     spawnSign(signOptions, function (error, outputPath) {
@@ -24,8 +26,8 @@ exports.sign = function (options, callback) {
       fs.rename(outputPath, finalPath, function () {
         if (error) return callback(error)
 
-        options.path = finalPath
-        options.nest = true
+        signOptions.path = finalPath
+        signOptions.nest = true
         signWithNextHash()
       })
     })
