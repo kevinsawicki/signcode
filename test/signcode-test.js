@@ -13,7 +13,7 @@ describe('signcode', function () {
 
       var options = {
         cert: path.join(__dirname, 'fixtures', 'cert.pem'),
-        hash: 'sha1',
+        hash: ['sha1', 'sha256'],
         key: path.join(__dirname, 'fixtures', 'key.pem'),
         path: tempPath
       }

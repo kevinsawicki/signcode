@@ -1,8 +1,33 @@
 var ChildProcess = require('child_process')
+var fs = require('fs')
 var path = require('path')
 
 exports.sign = function (options, callback) {
-  spawnSign(options, callback)
+  var signOptions = Object.assign(options)
+
+  var hashes = signOptions.hash
+  if (!Array.isArray(hashes)) {
+    hashes = [hashes]
+  }
+
+  var finalPath = getOutputPath(options.path)
+  var signWithNextHash = function (hash) {
+    var hash = hashes.shift()
+    if (!hash) return callback(null, finalPath)
+
+    signOptions.hash = hash
+    spawnSign(signOptions, function (error, outputPath) {
+      if (error) return callback(error)
+      fs.rename(outputPath, finalPath, function () {
+        if (error) return callback(error)
+
+        options.path = finalPath
+        options.nest = true
+        signWithNextHash()
+      })
+    })
+  }
+  signWithNextHash()
 }
 
 exports.verify = function (options, callback) {
@@ -10,7 +35,7 @@ exports.verify = function (options, callback) {
 }
 
 function spawnSign (options, callback) {
-  var outputPath = getOutputPath(options.path)
+  var outputPath = getOutputPath(options.path, options.hash)
   var args = [
     '-certs',
     options.cert,
@@ -36,6 +61,10 @@ function spawnSign (options, callback) {
     args.push('-i', options.site)
   }
 
+  if (options.nest) {
+    args.push('-nest')
+  }
+
   var signcode = ChildProcess.spawn(getSigncodePath(), args)
   signcode.on('close', function (code, signal) {
     if (code === 0) {
@@ -46,7 +75,7 @@ function spawnSign (options, callback) {
         message += ' ' + code
       }
       if (signal != null) {
-        message += ' ' + signale
+        message += ' ' + signal
       }
       callback(Error(message))
     }
@@ -87,10 +116,12 @@ function spawnVerify (options, callback) {
   })
 }
 
-function getOutputPath (inputPath) {
+function getOutputPath (inputPath, hash) {
   var extension = path.extname(inputPath)
   var name = path.basename(inputPath, extension)
-  var outputName = name + '-signed' + extension
+  var outputName = name + '-signed'
+  if (hash) outputName += '-' + hash
+  outputName += extension
   return path.join(path.dirname(inputPath), outputName)
 }
 
