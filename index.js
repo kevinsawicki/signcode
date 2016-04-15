@@ -89,11 +89,15 @@ function spawnSign (options, callback) {
     args.push('-pass', options.password)
   }
 
+  if (options.passwordPath) {
+    args.push('-readpass', options.passwordPath)
+  }
+
   var spawnOptions = {
     env: process.env
   }
 
-  if (options.password) {
+  if (options.password || options.passwordPath) {
     spawnOptions.detached = true
     spawnOptions.stdio = ['ignore', 'ignore', 'pipe']
   }

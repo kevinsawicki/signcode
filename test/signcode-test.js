@@ -99,6 +99,27 @@ describe('signcode', function () {
       })
     })
 
+    it('signs the executable with a password file', function (done) {
+      var tempPath = temp.path({suffix: '.exe'})
+      fs.writeFileSync(tempPath, fs.readFileSync(path.join(__dirname, 'fixtures', 'electron.exe')))
+
+      var options = {
+        cert: path.join(__dirname, 'fixtures', 'cert-with-pw.pem'),
+        hash: ['sha1', 'sha256'],
+        key: path.join(__dirname, 'fixtures', 'key-with-pw.pem'),
+        passwordPath: path.join(__dirname, 'fixtures', 'password.txt'),
+        path: tempPath
+      }
+
+      signcode.sign(options, function (error, outputPath) {
+        if (error) return done(error)
+
+        var sha1 = '15D3780E7FD7D18439EFBC6C0413489536B373B9'
+        var sha256 = '58B7E3102CBCCB0CF6A462F67F18834B6570C231D721D8AF5E4C4ABF0688BD3F'
+        verifyExe(outputPath, sha1, sha256, done)
+      })
+    })
+
     it('calls back with an error when an invalid password is specified', function (done) {
       var tempPath = temp.path({suffix: '.exe'})
       fs.writeFileSync(tempPath, fs.readFileSync(path.join(__dirname, 'fixtures', 'electron.exe')))
@@ -179,7 +200,7 @@ describe('signcode', function () {
       })
     })
 
-    it('callbacks with an error on an unmatch leaf hash', function (done) {
+    it('callbacks with an error on an unmatched leaf hash', function (done) {
       var verifyOptions = {
         hash: 'sha1:9BF51511E06FA5FFE1CE408584B9981AA4EFEBAD',
         path: path.join(__dirname, 'fixtures', 'electron-signed.exe')
