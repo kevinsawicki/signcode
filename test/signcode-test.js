@@ -4,6 +4,9 @@ var path = require('path')
 var signcode = require('..')
 var temp = require('temp').track()
 
+var describe = global.describe
+var it = global.it
+
 describe('signcode', function () {
   this.timeout(30000)
 

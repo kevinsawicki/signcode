@@ -1,12 +1,12 @@
 {
   "name": "signcode",
   "version": "1.0.0",
-  "description": "",
+  "description": "Sign Windows executables from a Mac",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha && standard"
   },
-  "author": "",
+  "author": "Kevin Sawicki",
   "license": "MIT",
   "devDependencies": {
     "mocha": "^2.4.5",

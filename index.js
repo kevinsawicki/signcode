@@ -14,11 +14,11 @@ exports.sign = function (options, callback) {
   }
 
   var finalPath = getOutputPath(signOptions.path)
-  var signWithNextHash = function (hash) {
+  var signWithNextHash = function () {
     var hash = hashes.shift()
     if (!hash) {
       if (signOptions.overwrite) {
-        fs.rename(finalPath, options.path, function(error) {
+        fs.rename(finalPath, options.path, function (error) {
           if (error) return callback(error)
           callback(null, options.path)
         })
@@ -114,7 +114,7 @@ function spawnVerify (options, callback) {
     'verify',
     '-in',
     options.path,
-		'-require-leaf-hash',
+    '-require-leaf-hash',
     options.hash
   ]
 
@@ -122,13 +122,13 @@ function spawnVerify (options, callback) {
 
   var stdout = ''
   signcode.stdout.on('data', function (data) {
-    stdout += data.toString();
+    stdout += data.toString()
   })
 
   signcode.on('close', function (code, signal) {
     if (stdout.indexOf('No signature found.') !== -1) {
       return callback(Error('No signature found'))
-    } else if(stdout.indexOf('Leaf hash match: failed') !== -1) {
+    } else if (stdout.indexOf('Leaf hash match: failed') !== -1) {
       return callback(Error('Leaf hash match failed'))
     } else if (code === 0) {
       callback()
@@ -138,7 +138,7 @@ function spawnVerify (options, callback) {
         message += ' ' + code
       }
       if (signal != null) {
-        message += ' ' + signale
+        message += ' ' + signal
       }
       callback(Error(message))
     }
