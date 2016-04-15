@@ -1,3 +1,4 @@
+var assert = require('assert')
 var fs = require('fs')
 var path = require('path')
 var signcode = require('..')
@@ -50,6 +51,27 @@ describe('signcode', function () {
         path: path.join(__dirname, 'fixtures', 'electron-signed.exe')
       }
       signcode.verify(verifyOptions, done)
+    })
+
+    it('callbacks with an error on an unsigned executable', function (done) {
+      var verifyOptions = {
+        path: path.join(__dirname, 'fixtures', 'electron.exe')
+      }
+      signcode.verify(verifyOptions, function (error) {
+        assert.equal(error.message, 'No signature found')
+        done()
+      })
+    })
+
+    it('callbacks with an error on an unmatch leaf hash', function (done) {
+      var verifyOptions = {
+        hash: 'sha1:9BF51511E06FA5FFE1CE408584B9981AA4EFEBAD',
+        path: path.join(__dirname, 'fixtures', 'electron-signed.exe')
+      }
+      signcode.verify(verifyOptions, function (error) {
+        assert.equal(error.message, 'Leaf hash match failed')
+        done()
+      })
     })
   })
 })

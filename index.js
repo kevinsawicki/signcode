@@ -104,6 +104,8 @@ function spawnVerify (options, callback) {
   signcode.on('close', function (code, signal) {
     if (stdout.indexOf('No signature found.') !== -1) {
       return callback(Error('No signature found'))
+    } else if(stdout.indexOf('Leaf hash match: failed') !== -1) {
+      return callback(Error('Leaf hash match failed'))
     } else if (code === 0) {
       callback()
     } else {
