@@ -17,7 +17,15 @@ exports.sign = function (options, callback) {
   var signWithNextHash = function (hash) {
     var hash = hashes.shift()
     if (!hash) {
-      return callback(null, finalPath)
+      if (signOptions.overwrite) {
+        fs.rename(finalPath, options.path, function(error) {
+          if (error) return callback(error)
+          callback(null, options.path)
+        })
+      } else {
+        callback(null, finalPath)
+      }
+      return
     }
 
     signOptions.hash = hash

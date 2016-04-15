@@ -22,6 +22,31 @@ describe('signcode', function () {
       signcode.sign(options, function (error, outputPath) {
         if (error) return done(error)
 
+        assert.notEqual(outputPath, options.path)
+
+        var sha1 = '9BF51511E06FA5FFE1CE408584B9981AA4EFE7EA'
+        var sha256 = '7229D992750771B833BE2C4F497A5853573B55FB9181E4031691A55FBEE496F6'
+        verifyExe(outputPath, sha1, sha256, done)
+      })
+    })
+
+    it('overwrites the executable when configured', function (done) {
+      var tempPath = temp.path({suffix: '.exe'})
+      fs.writeFileSync(tempPath, fs.readFileSync(path.join(__dirname, 'fixtures', 'electron.exe')))
+
+      var options = {
+        cert: path.join(__dirname, 'fixtures', 'cert.pem'),
+        hash: ['sha1', 'sha256'],
+        key: path.join(__dirname, 'fixtures', 'key.pem'),
+        path: tempPath,
+        overwrite: true
+      }
+
+      signcode.sign(options, function (error, outputPath) {
+        if (error) return done(error)
+
+        assert.equal(outputPath, options.path)
+
         var sha1 = '9BF51511E06FA5FFE1CE408584B9981AA4EFE7EA'
         var sha256 = '7229D992750771B833BE2C4F497A5853573B55FB9181E4031691A55FBEE496F6'
         verifyExe(outputPath, sha1, sha256, done)
