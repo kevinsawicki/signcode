@@ -2,10 +2,15 @@ var ChildProcess = require('child_process')
 var path = require('path')
 
 exports.sign = function (options, callback) {
-  spawn(options, callback)
+  spawnSign(options, callback)
 }
 
-function spawn (options, callback) {
+exports.verify = function (options, callback) {
+  spawnVerify(options, callback)
+}
+
+function spawnSign (options, callback) {
+  var outputPath = getOutputPath(options.path)
   var args = [
     '-certs',
     options.cert,
@@ -14,7 +19,7 @@ function spawn (options, callback) {
     '-in',
     options.path,
     '-out',
-    getOutputPath(options.path),
+    outputPath,
     '-t',
     'http://timestamp.verisign.com/scripts/timstamp.dll'
   ]
@@ -32,11 +37,45 @@ function spawn (options, callback) {
   }
 
   var signcode = ChildProcess.spawn(getSigncodePath(), args)
-  signcode.on('exit', function (code, signal) {
+  signcode.on('close', function (code, signal) {
     if (code === 0) {
+      callback(null, outputPath)
+    } else {
+      var message = 'osslsigncode signing failed: '
+      if (code != null) {
+        message += ' ' + code
+      }
+      if (signal != null) {
+        message += ' ' + signale
+      }
+      callback(Error(message))
+    }
+  })
+}
+
+function spawnVerify (options, callback) {
+  var args = [
+    'verify',
+    '-in',
+    options.path,
+		'-require-leaf-hash',
+    options.hash
+  ]
+
+  var signcode = ChildProcess.spawn(getSigncodePath(), args)
+
+  var stdout = ''
+  signcode.stdout.on('data', function (data) {
+    stdout += data.toString();
+  })
+
+  signcode.on('close', function (code, signal) {
+    if (stdout.indexOf('No signature found.') !== -1) {
+      return callback(Error('No signature found'))
+    } else if (code === 0) {
       callback()
     } else {
-      var message = 'osslsigncode failed: '
+      var message = 'osslsigncode verifying failed: '
       if (code != null) {
         message += ' ' + code
       }

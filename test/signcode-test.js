@@ -13,10 +13,20 @@ describe('signcode', function () {
 
       var options = {
         cert: path.join(__dirname, 'fixtures', 'cert.pem'),
+        hash: 'sha1',
         key: path.join(__dirname, 'fixtures', 'key.pem'),
         path: tempPath
       }
-      signcode.sign(options, done)
+
+      signcode.sign(options, function (error, outputPath) {
+        if (error) return done(error)
+
+        var verifyOptions = {
+          hash: 'sha1:9BF51511E06FA5FFE1CE408584B9981AA4EFE7EA',
+          path: outputPath
+        }
+        signcode.verify(verifyOptions, done)
+      })
     })
   })
 })
