@@ -16,7 +16,15 @@ Signs with `sha1` and `sha256` signatures by default.
 npm install signcode
 ```
 
-## Using
+## CLI
+
+Run `signcode --help` for more usage details.
+
+```
+signcode ./myapp.exe --cert ~/cert.p12 --password s3cr3t
+```
+
+## API
 
 ```js
 var signcode = require('signcode')
