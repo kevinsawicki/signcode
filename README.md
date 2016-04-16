@@ -4,7 +4,7 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 [![npm:](https://img.shields.io/npm/v/signcode.svg)](https://www.npmjs.com/packages/signcode)
 
-Sign Windows executables from a Mac.
+Sign Windows executables from a Mac using [osslsigncode](https://sourceforge.net/projects/osslsigncode).
 
 Works with `.pem`, `.p12`, and `.pfx` code signing files.
 
