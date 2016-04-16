@@ -20,7 +20,7 @@ npm install signcode
 
 Run `signcode --help` for more usage details.
 
-```
+```sh
 signcode ./myapp.exe --cert ~/cert.p12 --password s3cr3t
 ```
 
