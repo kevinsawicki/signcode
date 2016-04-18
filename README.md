@@ -47,6 +47,20 @@ signcode.sign(options, function (error) {
 })
 ```
 
+## Options
+
+| Name           | Type      | Required | Description                 |
+| :------------- | :-------- | :------- | :-------------------------- |
+| `cert`         | `String`  | Yes      | Path to a certificate file. |
+| `path`         | `String`  | Yes      | File path to executable to sign. |
+| `hash`         | `Array`   | No       | Signature types to sign the executable with. Defaults to `['sha1', 'sha256']`. |
+| `key`          | `String`  | No       | Path to a key file. Only required if `cert` is a `.pem` file. |
+| `name`         | `String`  | No       | Product name to include in the signature. |
+| `overwrite`    | `Boolean` | No       | `true` to sign the executable in place, `false` to sign the file with the same path but with `-signed` at the end of it. |
+| `password`     | `String`  | No       | Password to the certificate or key. |
+| `passwordPath` | `String`  | No       | Path to a file containing the password for the certificate or key. |
+| `site`         | `String`  | No       | Website URL to include in the signature. |
+
 ## Cert helpers commands
 
 These commands are helpful to when working with certificates.
