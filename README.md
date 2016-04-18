@@ -44,7 +44,7 @@ signcode.sign(options, function (error) {
 | `cert`         | `String`  | Yes      | Path to a certificate file. |
 | `path`         | `String`  | Yes      | File path to executable to sign. |
 | `hash`         | `Array`   | No       | Signature types to sign the executable with. Defaults to `['sha1', 'sha256']`. |
-| `key`          | `String`  | No       | Path to a key file. Only required if `cert` is a `.pem` file. |
+| `key`          | `String`  | No       | Path to a `.pem` key file. Only required if `cert` is a `.pem` file. |
 | `name`         | `String`  | No       | Product name to include in the signature. |
 | `overwrite`    | `Boolean` | No       | `true` to sign the executable in place, `false` to write the signed file at the same path but with `-signed` at the end of it. |
 | `password`     | `String`  | No       | Password to the certificate or key. |
