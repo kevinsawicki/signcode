@@ -3,10 +3,8 @@
 [![Travis Build Status](https://travis-ci.org/kevinsawicki/signcode.svg?branch=master)](https://travis-ci.org/kevinsawicki/signcode)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 [![npm:](https://img.shields.io/npm/v/signcode.svg)](https://www.npmjs.com/packages/signcode)
-[![downloads:](https://img.shields.io/npm/dm/signcode.svg)](https://www.npmjs.com/packages/signcode)
 
-
-Sign Windows executables from a Mac using [osslsigncode](https://sourceforge.net/projects/osslsigncode).
+Sign Windows executables from a Mac.
 
 Works with `.pem`, `.p12`, and `.pfx` code signing files.
 
@@ -18,15 +16,7 @@ Signs with `sha1` and `sha256` signatures by default.
 npm install signcode
 ```
 
-## CLI
-
-Run `signcode --help` for full usage details.
-
-```sh
-signcode ./myapp.exe --cert ~/cert.p12 --password s3cr3t
-```
-
-## API
+## Using
 
 ```js
 var signcode = require('signcode')
@@ -56,7 +46,7 @@ signcode.sign(options, function (error) {
 | `hash`         | `Array`   | No       | Signature types to sign the executable with. Defaults to `['sha1', 'sha256']`. |
 | `key`          | `String`  | No       | Path to a key file. Only required if `cert` is a `.pem` file. |
 | `name`         | `String`  | No       | Product name to include in the signature. |
-| `overwrite`    | `Boolean` | No       | `true` to sign the executable in place, `false` to sign the file with the same path but with `-signed` at the end of it. |
+| `overwrite`    | `Boolean` | No       | `true` to sign the executable in place, `false` to write the signed file at the same path but with `-signed` at the end of it. |
 | `password`     | `String`  | No       | Password to the certificate or key. |
 | `passwordPath` | `String`  | No       | Path to a file containing the password for the certificate or key. |
 | `site`         | `String`  | No       | Website URL to include in the signature. |
