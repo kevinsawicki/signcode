@@ -138,6 +138,25 @@ describe('signcode', function () {
       })
     })
 
+    it('calls back with an error when a file with an incorrect password is specified', function (done) {
+      var tempPath = temp.path({suffix: '.exe'})
+      fs.writeFileSync(tempPath, fs.readFileSync(path.join(__dirname, 'fixtures', 'electron.exe')))
+
+      var options = {
+        cert: path.join(__dirname, 'fixtures', 'cert-with-pw.pem'),
+        hash: ['sha1', 'sha256'],
+        key: path.join(__dirname, 'fixtures', 'key-with-pw.pem'),
+        passwordPath: path.join(__dirname, 'fixtures', 'bad-password.txt'),
+        path: tempPath
+      }
+
+      signcode.sign(options, function (error) {
+        console.log(error.message);
+        assert(error.message.length > 0)
+        done()
+      })
+    })
+
     it('calls back with an error when a non-existent password file is specified', function (done) {
       var tempPath = temp.path({suffix: '.exe'})
       fs.writeFileSync(tempPath, fs.readFileSync(path.join(__dirname, 'fixtures', 'electron.exe')))
