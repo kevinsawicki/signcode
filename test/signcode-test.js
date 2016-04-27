@@ -133,6 +133,7 @@ describe('signcode', function () {
       }
 
       signcode.sign(options, function (error) {
+        assert(error instanceof Error)
         assert(error.message.length > 0)
         done()
       })
@@ -151,6 +152,7 @@ describe('signcode', function () {
       }
 
       signcode.sign(options, function (error) {
+        assert(error instanceof Error)
         assert(error.message.length > 0)
         done()
       })
@@ -169,6 +171,7 @@ describe('signcode', function () {
       }
 
       signcode.sign(options, function (error) {
+        assert(error instanceof Error)
         assert(error.message.length > 0)
         done()
       })
@@ -185,6 +188,7 @@ describe('signcode', function () {
       }
 
       signcode.sign(options, function (error) {
+        assert(error instanceof Error)
         assert(error.message.length > 0)
         assert.notEqual(-1, error.message.indexOf('Failed to read certificate file'))
         done()
@@ -202,6 +206,7 @@ describe('signcode', function () {
       }
 
       signcode.sign(options, function (error) {
+        assert(error instanceof Error)
         assert(error.message.length > 0)
         assert.notEqual(-1, error.message.indexOf('Failed to read private key file'))
         done()
@@ -231,6 +236,7 @@ describe('signcode', function () {
         path: path.join(__dirname, 'fixtures', 'electron.exe')
       }
       signcode.verify(verifyOptions, function (error) {
+        assert(error instanceof Error)
         assert.equal(error.message, 'No signature found')
         done()
       })
@@ -242,6 +248,7 @@ describe('signcode', function () {
         path: path.join(__dirname, 'fixtures', 'electron-signed.exe')
       }
       signcode.verify(verifyOptions, function (error) {
+        assert(error instanceof Error)
         assert.equal(error.message, 'Leaf hash match failed')
         done()
       })
