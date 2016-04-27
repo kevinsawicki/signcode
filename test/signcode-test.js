@@ -6,9 +6,10 @@ var temp = require('temp').track()
 
 var describe = global.describe
 var it = global.it
+var timeout = process.env.CI ? 60000 : 30000
 
 describe('signcode', function () {
-  this.timeout(30000)
+  this.timeout(timeout)
 
   describe('.sign(options)', function () {
     it('signs the executable with a cert/key pem pair', function (done) {
