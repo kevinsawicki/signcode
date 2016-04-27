@@ -135,6 +135,7 @@ describe('signcode', function () {
       signcode.sign(options, function (error) {
         assert(error instanceof Error)
         assert(error.message.length > 0)
+        assert.notEqual(error.message.indexOf('Failed to read private key file'), -1)
         done()
       })
     })
