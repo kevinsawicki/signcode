@@ -190,7 +190,7 @@ describe('signcode', function () {
       signcode.sign(options, function (error) {
         assert(error instanceof Error)
         assert(error.message.length > 0)
-        assert.notEqual(-1, error.message.indexOf('Failed to read certificate file'))
+        assert.notEqual(error.message.indexOf('Failed to read certificate file'), -1)
         done()
       })
     })
@@ -208,7 +208,7 @@ describe('signcode', function () {
       signcode.sign(options, function (error) {
         assert(error instanceof Error)
         assert(error.message.length > 0)
-        assert.notEqual(-1, error.message.indexOf('Failed to read private key file'))
+        assert.notEqual(error.message.indexOf('Failed to read private key file'), -1)
         done()
       })
     })
