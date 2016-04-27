@@ -151,7 +151,6 @@ describe('signcode', function () {
       }
 
       signcode.sign(options, function (error) {
-        console.log(error.message);
         assert(error.message.length > 0)
         done()
       })
