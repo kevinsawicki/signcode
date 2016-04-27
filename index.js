@@ -8,9 +8,8 @@ exports.sign = function (options, callback) {
   var hashes = signOptions.hash
   if (!hashes) {
     hashes = ['sha1', 'sha256']
-  }
-  if (!Array.isArray(hashes)) {
-    hashes = [hashes]
+  } else {
+    hashes = Array.isArray(hashes) ? hashes.slice() : [hashes]
   }
 
   var finalPath = getOutputPath(signOptions.path)
