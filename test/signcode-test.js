@@ -6,9 +6,10 @@ var temp = require('temp').track()
 
 var describe = global.describe
 var it = global.it
+var timeout = process.env.CI ? 60000 : 30000
 
 describe('signcode', function () {
-  this.timeout(30000)
+  this.timeout(timeout)
 
   describe('.sign(options)', function () {
     it('signs the executable with a cert/key pem pair', function (done) {
@@ -133,7 +134,46 @@ describe('signcode', function () {
       }
 
       signcode.sign(options, function (error) {
-        assert(error.message.length > 0)
+        assert(error instanceof Error)
+        assert.notEqual(error.message.indexOf('Failed to read private key file'), -1)
+        done()
+      })
+    })
+
+    it('calls back with an error when a file with an incorrect password is specified', function (done) {
+      var tempPath = temp.path({suffix: '.exe'})
+      fs.writeFileSync(tempPath, fs.readFileSync(path.join(__dirname, 'fixtures', 'electron.exe')))
+
+      var options = {
+        cert: path.join(__dirname, 'fixtures', 'cert-with-pw.pem'),
+        hash: ['sha1', 'sha256'],
+        key: path.join(__dirname, 'fixtures', 'key-with-pw.pem'),
+        passwordPath: path.join(__dirname, 'fixtures', 'bad-password.txt'),
+        path: tempPath
+      }
+
+      signcode.sign(options, function (error) {
+        assert(error instanceof Error)
+        assert.notEqual(error.message.indexOf('Failed to read private key file'), -1)
+        done()
+      })
+    })
+
+    it('calls back with an error when a non-existent password file is specified', function (done) {
+      var tempPath = temp.path({suffix: '.exe'})
+      fs.writeFileSync(tempPath, fs.readFileSync(path.join(__dirname, 'fixtures', 'electron.exe')))
+
+      var options = {
+        cert: path.join(__dirname, 'fixtures', 'cert-with-pw.pem'),
+        hash: ['sha1', 'sha256'],
+        key: path.join(__dirname, 'fixtures', 'key-with-pw.pem'),
+        passwordPath: path.join(__dirname, 'fixtures', 'not-password.txt'),
+        path: tempPath
+      }
+
+      signcode.sign(options, function (error) {
+        assert(error instanceof Error)
+        assert.notEqual(error.message.indexOf('Failed to open password file'), -1)
         done()
       })
     })
@@ -149,8 +189,8 @@ describe('signcode', function () {
       }
 
       signcode.sign(options, function (error) {
-        assert(error.message.length > 0)
-        assert.notEqual(-1, error.message.indexOf('Failed to read certificate file'))
+        assert(error instanceof Error)
+        assert.notEqual(error.message.indexOf('Failed to read certificate file'), -1)
         done()
       })
     })
@@ -166,8 +206,8 @@ describe('signcode', function () {
       }
 
       signcode.sign(options, function (error) {
-        assert(error.message.length > 0)
-        assert.notEqual(-1, error.message.indexOf('Failed to read private key file'))
+        assert(error instanceof Error)
+        assert.notEqual(error.message.indexOf('Failed to read private key file'), -1)
         done()
       })
     })
@@ -195,6 +235,7 @@ describe('signcode', function () {
         path: path.join(__dirname, 'fixtures', 'electron.exe')
       }
       signcode.verify(verifyOptions, function (error) {
+        assert(error instanceof Error)
         assert.equal(error.message, 'No signature found')
         done()
       })
@@ -206,6 +247,7 @@ describe('signcode', function () {
         path: path.join(__dirname, 'fixtures', 'electron-signed.exe')
       }
       signcode.verify(verifyOptions, function (error) {
+        assert(error instanceof Error)
         assert.equal(error.message, 'Leaf hash match failed')
         done()
       })
