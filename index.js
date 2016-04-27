@@ -6,10 +6,10 @@ exports.sign = function (options, callback) {
   var signOptions = Object.assign({}, options)
 
   var hashes = signOptions.hash
-  if (!hashes) {
-    hashes = ['sha1', 'sha256']
-  } else {
+  if (hashes) {
     hashes = Array.isArray(hashes) ? hashes.slice() : [hashes]
+  } else {
+    hashes = ['sha1', 'sha256']
   }
 
   var finalPath = getOutputPath(signOptions.path)
