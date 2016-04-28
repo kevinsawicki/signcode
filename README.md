@@ -52,7 +52,7 @@ signcode.sign(options, function (error) {
 | `passwordPath` | `String`  | No       | Path to a file containing the password for the certificate or key. |
 | `site`         | `String`  | No       | Website URL to include in the signature. |
 
-## CLI
+## Command Line
 
 ```sh
 signcode /Users/kevin/apps/myapp.exe \
