@@ -52,6 +52,18 @@ signcode.sign(options, function (error) {
 | `passwordPath` | `String`  | No       | Path to a file containing the password for the certificate or key. |
 | `site`         | `String`  | No       | Website URL to include in the signature. |
 
+## CLI
+
+```sh
+signcode /Users/kevin/apps/myapp.exe \
+  --cert /Users/kevin/certs/cert.p12 \
+  --prompt \
+  --name 'My App' \
+  --url 'http://birthday.pizza'
+```
+
+Run `signcode -h` to see all the supported options.
+
 ## Cert helpers commands
 
 These commands are helpful to when working with certificates.
