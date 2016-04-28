@@ -66,7 +66,7 @@ Run `signcode -h` to see all the supported options.
 
 ## Cert helpers commands
 
-These commands are helpful to when working with certificates.
+These commands are helpful when working with certificates.
 
 ### Create cert and key with no password
 
