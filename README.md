@@ -14,7 +14,7 @@ Signs with `sha1` and `sha256` signatures by default.
 ## Installing
 
 ```sh
-npm install signcode
+npm install --save-dev signcode
 ```
 
 ## Using
