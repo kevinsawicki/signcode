@@ -182,5 +182,14 @@ function getOutputPath (inputPath, hash) {
 }
 
 function getSigncodePath () {
-  return path.join(__dirname, 'vendor', process.platform, 'osslsigncode')
+  var signcodePath = path.join(__dirname, 'vendor', process.platform, 'osslsigncode')
+
+  if (signOptions.useLocal) {
+    try {
+      signcodePath = String(ChildProcess.execSync('which osslsigncode'))
+    } catch (e) {
+      console.warn('Could not find a local version of osslsigncode. Attempting to use the version packaged with signcode.')
+    }
+  }
+  return signcodePath
 }

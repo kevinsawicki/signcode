@@ -5,7 +5,7 @@
 [![npm](https://img.shields.io/npm/v/signcode.svg)](https://www.npmjs.com/packages/signcode)
 [![downloads](https://img.shields.io/npm/dm/signcode.svg)](https://www.npmjs.com/packages/signcode)
 
-Sign Windows executables and installers from a Mac.
+Sign Windows executables and installers from a Mac or a machine with osslsigncode installed.
 
 Works with `.pem`, `.p12`, and `.pfx` code signing files.
 
@@ -51,6 +51,7 @@ signcode.sign(options, function (error) {
 | `password`     | `String`  | No       | Password to the certificate or key. |
 | `passwordPath` | `String`  | No       | Path to a file containing the password for the certificate or key. |
 | `site`         | `String`  | No       | Website URL to include in the signature. |
+| `useLocal`     | `Boolean` | No       | `true` to use a locally installed version of osslsigncode (Linux anyone?). |
 
 ## Command Line
 
