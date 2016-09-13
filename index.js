@@ -186,7 +186,8 @@ function getSigncodePath (options) {
 
   if (options.useLocal) {
     try {
-      signcodePath = String(ChildProcess.execSync('which osslsigncode'))
+      ChildProcess.execSync('which osslsigncode')
+      signcodePath = 'osslsigncode'
     } catch (e) {
       console.warn('Could not find a local version of osslsigncode. Attempting to use the version packaged with signcode.')
     }
