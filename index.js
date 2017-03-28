@@ -134,10 +134,15 @@ function spawnVerify (options, callback) {
   var args = [
     'verify',
     '-in',
-    options.path,
-    '-require-leaf-hash',
-    options.hash
+    options.path
   ]
+
+  if (options.hash != null) {
+    args.push(
+      '-require-leaf-hash',
+      options.hash
+    )
+  }
 
   var signcode = ChildProcess.spawn(getSigncodePath(), args)
 
