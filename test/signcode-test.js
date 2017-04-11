@@ -214,6 +214,13 @@ describe('signcode', function () {
   })
 
   describe('.verify(options)', function () {
+    it('verifies the presence of a signature on the executable', function (done) {
+      var verifyOptions = {
+        path: path.join(__dirname, 'fixtures', 'electron-signed.exe')
+      }
+      signcode.verify(verifyOptions, done)
+    })
+
     it('verifies the sha1 signature on the executable', function (done) {
       var verifyOptions = {
         hash: 'sha1:9BF51511E06FA5FFE1CE408584B9981AA4EFE7EA',
