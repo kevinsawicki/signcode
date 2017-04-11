@@ -159,7 +159,7 @@ function spawnVerify (options, callback) {
     } else if (code === 0) {
       callback()
     } else {
-      var message = 'osslsigncode verifying failed: '
+      var message = 'osslsigncode verifying failed:'
       if (code != null) {
         message += ' ' + code
       }
