@@ -5,7 +5,7 @@
 [![npm](https://img.shields.io/npm/v/signcode.svg)](https://www.npmjs.com/packages/signcode)
 [![downloads](https://img.shields.io/npm/dm/signcode.svg)](https://www.npmjs.com/packages/signcode)
 
-Sign Windows executables and installers from a Mac.
+Sign Windows executables and installers from a Mac and Linux (`osslsigncode` required).
 
 Works with `.pem`, `.p12`, and `.pfx` code signing files.
 
