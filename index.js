@@ -187,5 +187,6 @@ function getOutputPath (inputPath, hash) {
 }
 
 function getSigncodePath () {
-  return path.join(__dirname, 'vendor', process.platform, 'osslsigncode')
+  var signcodePath = path.join(__dirname, 'vendor', process.platform, 'osslsigncode')
+  return fs.existsSync(signcodePath) ? signcodePath : 'osslsigncode'
 }
