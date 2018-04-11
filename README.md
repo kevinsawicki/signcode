@@ -36,9 +36,17 @@ signcode.sign(options, function (error) {
     console.log(options.path + ' is now signed')
   }
 })
+
+signcode.verify({ path: '/Users/kevin/apps/myapp.exe' }, function (error) {
+  if (error) {
+    console.error('Not signed', error.message)
+  } else {
+    console.log(options.path + ' is signed')
+  }
+})
 ```
 
-## Options
+### Signing Options
 
 | Name           | Type      | Required | Description                 |
 | :------------- | :-------- | :------- | :-------------------------- |
@@ -53,14 +61,22 @@ signcode.sign(options, function (error) {
 | `site`         | `String`  | No       | Website URL to include in the signature. |
 | `useLocal`     | `Boolean` | No       | `true` to use a locally installed version of osslsigncode (Linux anyone?). |
 
-## Command Line
+### Verification Options
+
+| Name           | Type      | Required | Description                 |
+| :------------- | :-------- | :------- | :-------------------------- |
+| `path`         | `String`  | Yes      | File path to executable to verify. |
+| `hash`         | `String`  | No       | Certificate fingerprint to expect on executable. |
+
+### Command Line Example
 
 ```sh
-signcode /Users/kevin/apps/myapp.exe \
+signcode sign /Users/kevin/apps/myapp.exe \
   --cert /Users/kevin/certs/cert.p12 \
   --prompt \
   --name 'My App' \
   --url 'http://birthday.pizza'
+signcode verify /Users/kevin/apps/myapp.exe
 ```
 
 Run `signcode -h` to see all the supported options.

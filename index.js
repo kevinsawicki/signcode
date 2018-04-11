@@ -134,10 +134,15 @@ function spawnVerify (options, callback) {
   var args = [
     'verify',
     '-in',
-    options.path,
-    '-require-leaf-hash',
-    options.hash
+    options.path
   ]
+
+  if (options.hash != null) {
+    args.push(
+      '-require-leaf-hash',
+      options.hash
+    )
+  }
 
   var signcode = ChildProcess.spawn(getSigncodePath(options), args)
 
@@ -154,7 +159,7 @@ function spawnVerify (options, callback) {
     } else if (code === 0) {
       callback()
     } else {
-      var message = 'osslsigncode verifying failed: '
+      var message = 'osslsigncode verifying failed:'
       if (code != null) {
         message += ' ' + code
       }
