@@ -54,7 +54,7 @@ function spawnSign (options, callback) {
     '-out',
     outputPath,
     '-t',
-    'http://timestamp.verisign.com/scripts/timstamp.dll'
+    'http://timestamp.digicert.com/scripts/timstamp.dll'
   ]
 
   var certExtension = path.extname(options.cert)
