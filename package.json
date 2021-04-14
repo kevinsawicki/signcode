@@ -1,6 +1,6 @@
 {
   "name": "signcode",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sign Windows executables from a Mac",
   "repository": "https://github.com/kevinsawicki/signcode",
   "main": "index.js",
